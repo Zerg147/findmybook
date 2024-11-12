@@ -27,6 +27,7 @@ const MainDiv = styled.div`
     text-align: center;
     width: 100%;
     background-color: #ebebeb;
+    color: #000;
   }
   .main-container {
     padding: 30px;
