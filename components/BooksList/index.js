@@ -171,6 +171,9 @@ const MainDiv = styled.div`
       cursor: pointer;
     }
   }
+  .MuiSelect-select {
+    text-transform: capitalize;
+  }
 `;
 
 export default function BooksList() {
@@ -208,6 +211,7 @@ export default function BooksList() {
   } = {}) => {
     setLoading(true);
     setErrorMessage("");
+    setCurrentPage(1)
 
     // Start constructing the URL with non-empty parameters
     let url = "https://gutendex.com/books";
@@ -239,7 +243,14 @@ export default function BooksList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchBooks({ page: currentPage });
+        await  fetchBooks({
+            search: searchTerm, // Use the trimmed input for the search
+            copyright: activeCopyright,
+            languages: activeLang,
+            topic: activeCategory,
+            page: currentPage,
+            sort: activeSort,
+          });
       } catch (error) {
         console.error("Error fetching data", error.message);
       }
@@ -251,6 +262,7 @@ export default function BooksList() {
   const handleSearchChange = (e) => {
     const input = e.target.value;
     setSearchTerm(input);
+    setCurrentPage(1);
 
     if (typingTimeout) clearTimeout(typingTimeout);
 
@@ -288,11 +300,11 @@ export default function BooksList() {
   ];
 
   const category = [
-    { label: "Science Fiction", term: "science fiction" },
+    { label: "Science", term: "science" },
     { label: "Horror", term: "horror" },
     { label: "Romance", term: "romance" },
     { label: "Fantasy", term: "fantasy" },
-    { label: "Mythology", term: "Mythology" },
+    { label: "Mythology", term: "mythology" },
   ];
 
   const sort = [
@@ -446,6 +458,7 @@ export default function BooksList() {
         sort: "",
       });
     }
+    setCurrentPage(1);
   };
 
   return (
@@ -662,13 +675,17 @@ export default function BooksList() {
             books?.map((book) => (
               <div key={book.id} className="single-book">
                 <div className="img-container">
-                  {book.formats["image/jpeg"] && (
+                  {book.formats["image/jpeg"] ? (
                     <img
                       src={book.formats["image/jpeg"]}
                       alt={`${book.title} cover`}
                       className="book-cover"
                     />
-                  )}
+                  ) : 
+                  <img
+                    src="/Event-Image-Not-Found.jpg"
+                  />
+                  }
                 </div>
                 <div className="content">
                   <h3 className="title">{book.title}</h3>
