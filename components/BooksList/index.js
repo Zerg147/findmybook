@@ -609,8 +609,8 @@ export default function BooksList() {
             </div>
           )}
           {activeLang.length > 0 &&
-            activeLang?.map((item) => (
-              <div className="active-filter">
+            activeLang?.map((item, index) => (
+              <div className="active-filter" key={index}>
                 {getLabelFromTerm(item, languages)}
                 <button onClick={() => removeFilter("language", item)}>
                   x
@@ -618,8 +618,8 @@ export default function BooksList() {
               </div>
             ))}
           {activeCopyright.length > 0 &&
-            activeCopyright?.map((item) => (
-              <div className="active-filter">
+            activeCopyright?.map((item, index) => (
+              <div className="active-filter" key={index}>
                 Copyright: {getLabelFromTerm(item, copyright)}
                 <button onClick={() => removeFilter("copyright", item)}>
                   x
@@ -627,8 +627,8 @@ export default function BooksList() {
               </div>
             ))}
           {activeCategory.length > 0 &&
-            activeCategory?.map((item) => (
-              <div className="active-filter">
+            activeCategory?.map((item, index) => (
+              <div className="active-filter" key={index}>
                 {getLabelFromTerm(item, category)}
                 <button onClick={() => removeFilter("category", item)}>
                   x
